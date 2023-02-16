@@ -3,4 +3,49 @@ SELECT publishername, city
 FROM publisher
 WHERE city = 'New York'
 
-# List the book code, book title, and price of each book
+# List the book code, book title, and price of each book that has the type HOR and is in paperback
+SELECT bookcode, title, price
+FROM book
+WHERE type = 'HOR' and paperback = 'Y'
+
+# List the book code, book title, and price of eacb book with a price between $10 and $20
+SELECT bookcode, title, price
+FROM book
+WHERE price >= 10 and price <= 20
+
+# List the book code and book title of each book that has the type MYS and a price of less than $10
+SELECT bookcode, title
+FROM book
+WHERE type = 'MYS' and price < 10
+
+# Customers who are part of a special program get a 15% discount off regular book prices. List the book code, book title, and discounted price of each book. Use DISCOUNTED_PRICE as the name for the computed column, which should calculate as 85% of the current price
+SELECT bookcode, title, ROUND(price*.85, 2) AS DISCOUNTED_PRICE
+FROM book
+
+# List the book code and book title of each book that has the type FIC, MYS, or ART. use the IN operator in your command
+SELECT bookcode, title
+FROM book
+WHERE type IN('FIC','MYS','ART')
+
+SELECT bookcode, title
+FROM book
+WHERE type = 'FIC' OR type = 'MYS' or type = 'ART'
+
+# How many books have the type MYS ?
+SELECT COUNT(bookcode)
+FROM book
+WHERE type = 'MYS'
+
+# What is the lowest book price in the database ?
+SELECT MIN(price)
+FROM book
+
+# How many employees does Henry Books have ?
+SELECT sum(numemployees)
+FROM branch
+
+# How many publishers are in New York City ?
+SELECT count(publishercode) 
+FROM publisher
+WHERE city = 'New York'
+
