@@ -1,0 +1,6 @@
+# List the names of each publisher located in the city of New York
+SELECT publishername, city
+FROM publisher
+WHERE city = 'New York'
+
+# List the book code, book title, and price of each book
