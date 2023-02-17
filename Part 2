@@ -15,5 +15,36 @@ JOIN branch br ON i.branchnum = br.branchnum
 WHERE branchname = "Henry Downtown"
 
 # How many books does each publisher offer in paperback ?
-SELECT  COUNT(bookcode)
-FROM 
+SELECT publishername, COUNT(bookcode) AS Paperbacks.Published
+FROM publisher join book ON publisher.publishercode = book.publishercode
+GROUP BY publishername
+
+# What is the highest price charged for a book by each publiser ? Please use publisher name
+SELECT publishername, MAX(price)
+FROM publisher
+JOIN book ON publisher.publishercode = book.publishercode
+GROUP BY publishername
+
+# Find the book code, book title and publisher name for each book that was published in Boston
+SELECT bookcode, title, publishername
+FROM book JOIN publisher ON book.bookcode = publisher.bookcode
+WHERE city = "Boston"
+
+# List the publisher (name) and the total number of books published; please list in descending order and label the number of books published appropriately
+SELECT publishername, COUNT(bookcode) as Number_Books_Published
+FROM book JOIN publisher ON book.publishercode = publisher.publishercode
+GROUP BY publishername
+ORDER BY count(bookcode) DESC
+
+# List each branch name and the total number of book copies in stock by each type (such as Art, Fiction, etc.)
+SELECT branchname, type, SUM(onhand)
+FROM book b JOIN inventory i ON b.bookcode = i.bookcode
+JOIN branch br ON i.branchnum = br.branchnum
+GROUP BY branchname, type
+
+# Repeat No.8 but only include those types having more than 5 books in stock
+SELECT branchname, type, SUM(onhand)
+FROM book b JOIN inventory i ON b.bookcode = i.bookcode
+JOIN branch br ON i.branchnum = br.branchnum
+GROUP BY branchname, type
+HAVING sum(onhand) > 5
