@@ -1,0 +1,12 @@
+# List the book code, book title, and price of each book that has a book price of more than $15
+SELECT  bookcode, title, price
+FROM book
+WHERE price > 15
+
+# List the authors and the number of books they have written
+SELECT authorlast, authorfirst, count(bookcode)
+FROM author JOIN wrote ON author.authornum = wrote.authornum
+GROUP BY authorlast, authorfirst
+
+# What are the book titles that are at Henry Downtown ?
+SELECT title,
