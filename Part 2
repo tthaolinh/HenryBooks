@@ -9,4 +9,11 @@ FROM author JOIN wrote ON author.authornum = wrote.authornum
 GROUP BY authorlast, authorfirst
 
 # What are the book titles that are at Henry Downtown ?
-SELECT title,
+SELECT title
+FROM book b join inventory i ON b.bookcode = i.bookcode
+JOIN branch br ON i.branchnum = br.branchnum
+WHERE branchname = "Henry Downtown"
+
+# How many books does each publisher offer in paperback ?
+SELECT  COUNT(bookcode)
+FROM 
