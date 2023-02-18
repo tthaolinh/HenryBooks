@@ -4,4 +4,25 @@ FROM book
 WHERE price > (SELECT AVG(price) FROM book)
 
 # List the name of the author(s) who wrote the most expensive book
+SELECT authorlast, authorfirst
+FROM author JOIN wrote ON author.authornum = wrote.authornum
+JOIN book ON wrote.bookcode = book.bookcode
+WHERE price = (SELECT MAX(price) FROM book) 
+
+# Find the book code and book title for each book whose price is less than the least expensive Mystery book(MYS)
+SELECT bookcode, title
+FROM book 
+WHERE price < (SELECT MIN(price) FROM book 
+WHERE type = 'MYS')
+
+# List each branch name and the number of paperback books in stock. Please only include those types having 
+at least 3 in stock
+SELECT branchname, sum(onhand)
+FROM branch JOIN inventory ON branch.branchnum = inventory.branchnum
+JOIN book ON inventory.bookcode = book.bookcode
+WHERE paperback = "Y"
+GROUP BY branchname
+HAVING sum(onhand) >= 3
+
+# List the first name and last name of authors whose first name begin with Tr
 SELECT 
