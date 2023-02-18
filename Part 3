@@ -1,0 +1,7 @@
+# Which book titles have a higher than average cost ?
+SELECT title
+FROM book
+WHERE price > (SELECT AVG(price) FROM book)
+
+# List the name of the author(s) who wrote the most expensive book
+SELECT 
