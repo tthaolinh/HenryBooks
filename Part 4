@@ -1,1 +1,35 @@
 # Find the book title for each book published by Plume
+SELECT title
+FROM book
+WHERE exists (SELECT * FROM publisher
+WHERE publishername = 'Plume' and publisher.publishercode = book.publishercode)
+
+# Repeat above except use the In operator to link to your subquerry
+SELECT title FROM book
+WHERE publishercode IN (SELECT publishercode FROM publisher WHERE publishername = 'Plume')
+
+# List the title for the cheapest horror novel
+SELECT title FROM book
+WHERE price = (SELECT (min(price)) FROM book
+WHERE type = 'HOR') and type = 'HOR'
+
+# List the publishername and branch name in one column
+SELECT publishername AS publisher_and_branches
+FROM publisher
+UNION
+SELECT branchname FROM branch
+
+# List the book titles that are not currently being sold
+SELECT title FROM book
+WHERE bookcode NOT IN (select bookcode from inventory)
+
+# List the publisher names having at least 5 copies of books in stock
+
+
+# Where can I buy Magic Terror
+
+# List the title, and if paperbaack then display Paperback, otherwise Hard Cover
+
+# List the title, price, and description of price such as 'Under $10', 'Between $10 and $19.99', and '$20 and over'
+
+# List the author with the most book titles in the book stores
