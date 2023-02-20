@@ -24,12 +24,36 @@ SELECT title FROM book
 WHERE bookcode NOT IN (select bookcode from inventory)
 
 # List the publisher names having at least 5 copies of books in stock
-
+SELECT publishername, SUM(onhand)
+FROM publisher p JOIN book b ON p.publishercode = b.publishercode
+JOIN inventory i ON b.bookcode = i.bookcode
+GROUP BY publishername
+HAVING sum(onhand) >= 5
 
 # Where can I buy Magic Terror
+SELECT branchname
+FROM branch JOIN inventory ON branch.branchname = inventory.branchnum
+JOIN book ON inventory.bookcode = book.bookcode
+WHERE title = 'Magic Terror'
 
-# List the title, and if paperbaack then display Paperback, otherwise Hard Cover
+# List the title, and if paperback then display Paperback, otherwise Hard Cover
+SELECT title, paperback, if(paperback = 'Y', 'Paperback', 'Hardcover')
+AS CoverType FROM book
 
 # List the title, price, and description of price such as 'Under $10', 'Between $10 and $19.99', and '$20 and over'
+SELECT title, price, case when price < 10 then
+'Under $10' when price < 20 then 'Between $10 and $20'
+else '$20 and over' end as PriceDescription
+FROM book
 
 # List the author with the most book titles in the book stores
+CREATE VIEW authorcount (authornum, books_in_inventory) 
+AS select authornum, COUNT(b.bokcode) FROM wrote w
+JOIN book b ON w.bookcode = b.bookcode JOIN inventory i
+ON b.bookcode = i.bookcode
+GROUP by authornum
+
+SELECT authorfirst, authorlast FROM author join
+authorcount ON author.authornum = authorcount.authornum
+WHERE book_in_inventory = (select max(books_in_inventory) from authorcount)
+
